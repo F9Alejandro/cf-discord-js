@@ -1,4 +1,4 @@
-import { Permissions } from './permissions';
+import { Permissions } from "./permissions";
 
 /**
  *
@@ -6,18 +6,22 @@ import { Permissions } from './permissions';
  * @param permissions - Permissions enum that provides uint of each permission given the name.
  * @returns {Response}
  */
-export const authorize = (applicationId: string, permissions: Permissions) => async (): Promise<Response> => {
-  const urlSearchParams = new URLSearchParams({
-    client_id: applicationId,
-    scope: 'bot applications.commands',
-    permissions: permissions.compute(),
-  });
+const authorize =
+  (applicationId: string, permissions: Permissions) =>
+  async (): Promise<Response> => {
+    const urlSearchParams = new URLSearchParams({
+      client_id: applicationId,
+      scope: "bot applications.commands",
+      permissions: permissions.compute(),
+    });
 
-  const redirectURL = new URL(`https://discord.com/oauth2/authorize`);
-  redirectURL.search = urlSearchParams.toString();
+    const redirectURL = new URL("https://discord.com/oauth2/authorize");
+    redirectURL.search = urlSearchParams.toString();
 
-  return new Response(null, {
-    status: 302,
-    headers: { Location: redirectURL.toString() },
-  });
-};
+    return new Response(null, {
+      status: 302,
+      headers: { Location: redirectURL.toString() },
+    });
+  };
+
+export default authorize;

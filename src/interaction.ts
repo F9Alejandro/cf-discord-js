@@ -1,32 +1,38 @@
-import nacl from 'tweetnacl';
-import { Buffer } from 'buffer';
-import { ApplicationCommand, InteractionHandler, Interaction, InteractionType, InteractionResponseType } from './types';
+import nacl from "tweetnacl";
+import { Buffer } from "buffer";
+import {
+  ApplicationCommand,
+  InteractionHandler,
+  Interaction,
+  InteractionType,
+  InteractionResponseType,
+} from "./application/index";
 
 const makeValidator =
   ({ publicKey }: { publicKey: string }) =>
   async (request: Request) => {
     const headers = Object.fromEntries(request.headers);
-    const signature = String(headers['x-signature-ed25519']);
-    const timestamp = String(headers['x-signature-timestamp']);
+    const signature = String(headers["x-signature-ed25519"]);
+    const timestamp = String(headers["x-signature-timestamp"]);
     const body = await request.json();
 
     const isValid = nacl.sign.detached.verify(
       Buffer.from(timestamp + JSON.stringify(body)),
-      Buffer.from(signature, 'hex'),
-      Buffer.from(publicKey, 'hex'),
+      Buffer.from(signature, "hex"),
+      Buffer.from(publicKey, "hex")
     );
 
-    if (!isValid) throw new Error('Invalid request');
+    if (!isValid) throw new Error("Invalid request");
   };
 
 const jsonResponse = (data: any) =>
   new Response(JSON.stringify(data), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 
 const DEFAULT_COMMAND: ApplicationCommand = {
-  name: '',
-  description: '',
+  name: "",
+  description: "",
 };
 
 const DEFAULT_HANDLER: InteractionHandler = () => ({
@@ -40,14 +46,15 @@ const DEFAULT_HANDLER: InteractionHandler = () => ({
  * @param {[AppicationCommand, InteractionHandler][]} commands - Handles commands/interactions.
  * @returns {Promise<Response>} async response to interaction.
  */
-export const interaction = ({
-  publicKey,
-  commands,
-}: {
-  publicKey: string;
-  commands: [ApplicationCommand, InteractionHandler][];
-}) => {
-  return async (request: Request, ...extra: any): Promise<Response> => {
+export const interaction =
+  ({
+    publicKey,
+    commands,
+  }: {
+    publicKey: string;
+    commands: [ApplicationCommand, InteractionHandler][];
+  }) =>
+  async (request: Request, ...extra: any): Promise<Response> => {
     const validateRequest = makeValidator({ publicKey });
 
     try {
@@ -58,10 +65,13 @@ export const interaction = ({
 
         if (interaction.type == InteractionType.PING) {
           return jsonResponse({ type: 1 });
-        } else if (interaction.type == InteractionType.APPLICATION_COMMAND) {
-          const [command, handler]: [ApplicationCommand, InteractionHandler] = commands.find(
-            ([command, handler]: [ApplicationCommand, InteractionHandler]) => command.name === interaction.data?.name,
-          ) || [DEFAULT_COMMAND, DEFAULT_HANDLER];
+        }
+        if (interaction.type == InteractionType.APPLICATION_COMMAND) {
+          const [command, handler]: [ApplicationCommand, InteractionHandler] =
+            commands.find(
+              ([command, handler]: [ApplicationCommand, InteractionHandler]) =>
+                command.name === interaction.data?.name
+            ) || [DEFAULT_COMMAND, DEFAULT_HANDLER];
 
           return jsonResponse(await handler(interaction, ...extra));
         }
@@ -75,4 +85,3 @@ export const interaction = ({
     }
     return new Response(null, { status: 500 });
   };
-};

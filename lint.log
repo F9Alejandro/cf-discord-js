@@ -1,0 +1,110 @@
+
+> cf-discord-js@2022.10.10-2157 lint
+> eslint --max-warnings=0 'src/**/*' && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'
+
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/command.ts
+  58:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/discord.ts
+  10:29  error  'DiscordUser' is already declared in the upper scope on line 1 column 18                       @typescript-eslint/no-shadow
+  18:3   error  Expected interface keys to be in ascending order. 'id' should be before 'name'                 typescript-sort-keys/interface
+  20:3   error  Expected interface keys to be in ascending order. 'roles' should be before 'user'              typescript-sort-keys/interface
+  21:3   error  Expected interface keys to be in ascending order. 'require_colons' should be before 'roles'    typescript-sort-keys/interface
+  22:3   error  Expected interface keys to be in ascending order. 'managed' should be before 'require_colons'  typescript-sort-keys/interface
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/embed.ts
+  3:3  error  Expected string enum members to be in ascending order. 'IMAGE' should be before 'RICH'    typescript-sort-keys/string-enum
+  5:3  error  Expected string enum members to be in ascending order. 'GIFV' should be before 'VIDEO'    typescript-sort-keys/string-enum
+  6:3  error  Expected string enum members to be in ascending order. 'ARTICLE' should be before 'GIFV'  typescript-sort-keys/string-enum
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/interaction.ts
+    5:1   error    `./guild` import should occur before import of `./message`  import/order
+  105:13  warning  Unexpected any. Specify a different type                    @typescript-eslint/no-explicit-any
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/message.ts
+    6:3   error  Expected string enum members to be in ascending order. 'EVERYONE' should be before 'USERS'       typescript-sort-keys/string-enum
+   98:3   error  Expected interface keys to be in ascending order. 'component_type' should be before 'custom_id'  typescript-sort-keys/interface
+  145:15  error  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                 @typescript-eslint/array-type
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/application/permission.ts
+  1:1  error  Prefer default export  import/prefer-default-export
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/handler.ts
+   6:1   error  `./application/index` import should occur before import of `./authorize`                  import/order
+  14:3   error  Expected interface keys to be in ascending order. 'guildId' should be before 'publicKey'  typescript-sort-keys/interface
+  15:3   error  Expected interface keys to be in ascending order. 'commands' should be before 'guildId'   typescript-sort-keys/interface
+  15:13  error  Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead          @typescript-eslint/array-type
+  25:48  error  Missing return type on function                                                           @typescript-eslint/explicit-function-return-type
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/interaction.ts
+   2:1   error    `buffer` import should occur before import of `tweetnacl`                                                  import/order
+  17:11  error    Unsafe assignment of an `any` value                                                                        @typescript-eslint/no-unsafe-assignment
+  28:22  error    Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  28:29  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  49:1   error    Prefer default export                                                                                      import/prefer-default-export
+  55:5   error    Expected interface keys to be in ascending order. 'commands' should be before 'publicKey'                  typescript-sort-keys/interface
+  55:15  error    Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                           @typescript-eslint/array-type
+  57:38  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  64:15  error    'interaction' is already declared in the upper scope on line 49 column 14                                  @typescript-eslint/no-shadow
+  66:30  error    Expected '===' and instead saw '=='                                                                        eqeqeq
+  69:30  error    Expected '===' and instead saw '=='                                                                        eqeqeq
+  70:18  error    'command' is assigned a value but never used                                                               @typescript-eslint/no-unused-vars
+  71:13  error    Unexpected nullable object value in conditional. An explicit null check is required                        @typescript-eslint/strict-boolean-expressions
+  72:17  error    'command' is already declared in the upper scope on line 70 column 18                                      @typescript-eslint/no-shadow
+  72:26  error    'handler' is already declared in the upper scope on line 70 column 27                                      @typescript-eslint/no-shadow
+  72:26  error    'handler' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+  74:15  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
+  76:58  error    Unsafe spread of an `any` type                                                                             @typescript-eslint/no-unsafe-argument
+  78:19  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  79:9   warning  Unexpected console statement                                                                               no-console
+  79:21  error    Unsafe member access .message on an `any` value                                                            @typescript-eslint/no-unsafe-member-access
+  82:17  warning  Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  83:7   warning  Unexpected console statement                                                                               no-console
+  83:21  error    Unsafe member access .message on an `any` value                                                            @typescript-eslint/no-unsafe-member-access
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/permissions.ts
+   6:1   error  Prefer default export                                                        import/prefer-default-export
+   7:23  error  Member 'types: PermissionType[]' is never reassigned; mark it as `readonly`  @typescript-eslint/prefer-readonly
+   9:3   error  Missing return type on function                                              @typescript-eslint/explicit-function-return-type
+  11:24  error  Arrow function should not return assignment                                  no-return-assign
+  11:35  error  Operands of '+' operation must either be both strings or both numbers        @typescript-eslint/restrict-plus-operands
+
+/home/fang_shadow/docs/git/cloudflare-discord-bot/src/setup.ts
+    4:14  error    Missing return type on function                                                                    @typescript-eslint/explicit-function-return-type
+    6:30  error    Missing return type on function                                                                    @typescript-eslint/explicit-function-return-type
+    6:46  warning  Unexpected any. Specify a different type                                                           @typescript-eslint/no-explicit-any
+    7:3   error    Unsafe member access ["Content-Type"] on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    7:3   error    Assignment to property of function parameter 'headers'                                             no-param-reassign
+   15:5   error    Unsafe assignment of an `any` value                                                                @typescript-eslint/no-unsafe-assignment
+   23:11  error    Unsafe assignment of an `any` value                                                                @typescript-eslint/no-unsafe-assignment
+   24:5   error    Unsafe return of an `any` typed value                                                              @typescript-eslint/no-unsafe-return
+   24:12  error    Unsafe member access .access_token on an `any` value                                               @typescript-eslint/no-unsafe-member-access
+   36:7   error    Unexpected nullable string value in conditional. Please handle the nullish/empty cases explicitly  @typescript-eslint/strict-boolean-expressions
+   45:11  warning  Unexpected any. Specify a different type                                                           @typescript-eslint/no-explicit-any
+   54:32  error    Invalid type "any" of template literal expression                                                  @typescript-eslint/restrict-template-expressions
+   59:9   error    Unsafe assignment of an `any` value                                                                @typescript-eslint/no-unsafe-assignment
+   62:5   error    Unsafe member access .map on an `any` value                                                        @typescript-eslint/no-unsafe-member-access
+   62:5   error    Unsafe call of an `any` typed value                                                                @typescript-eslint/no-unsafe-call
+   63:7   error    Functions that return promises must be async                                                       @typescript-eslint/promise-function-async
+   63:52  error    Expected interface keys to be in ascending order. 'application_id' should be before 'id'           typescript-sort-keys/interface
+   66:46  error    Invalid type "any" of template literal expression                                                  @typescript-eslint/restrict-template-expressions
+   80:5   error    Expected interface keys to be in ascending order. 'commands' should be before 'guildId'            typescript-sort-keys/interface
+   80:15  error    Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                   @typescript-eslint/array-type
+   82:11  warning  Unexpected any. Specify a different type                                                           @typescript-eslint/no-explicit-any
+   86:50  error    'handler' is defined but never used                                                                @typescript-eslint/no-unused-vars
+   92:34  error    Invalid type "any" of template literal expression                                                  @typescript-eslint/restrict-template-expressions
+   99:16  error    Unsafe assignment of an `any` value                                                                @typescript-eslint/no-unsafe-assignment
+  102:34  error    Use 'as Error' instead of '<Error>'                                                                @typescript-eslint/consistent-type-assertions
+  113:10  error    Returning an awaited promise is not allowed in this context                                        @typescript-eslint/return-await
+  120:32  error    Unsafe argument of type `any` assigned to a parameter of type `BodyInit | null | undefined`        @typescript-eslint/no-unsafe-argument
+  120:32  error    Unsafe member access .message on an `any` value                                                    @typescript-eslint/no-unsafe-member-access
+  131:1   error    Prefer default export                                                                              import/prefer-default-export
+  131:22  error    Missing return type on function                                                                    @typescript-eslint/explicit-function-return-type
+  140:3   error    Expected interface keys to be in ascending order. 'commands' should be before 'guildId'            typescript-sort-keys/interface
+  140:13  error    Array type using 'T[]' is forbidden for non-simple types. Use 'Array<T>' instead                   @typescript-eslint/array-type
+  152:13  error    Unsafe assignment of an `any` value                                                                @typescript-eslint/no-unsafe-assignment
+
+✖ 82 problems (71 errors, 11 warnings)
+  26 errors and 0 warnings potentially fixable with the `--fix` option.
+

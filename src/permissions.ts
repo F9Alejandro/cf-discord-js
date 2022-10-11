@@ -1,4 +1,4 @@
-import { PermissionType } from './types';
+import { PermissionType } from "./application/index";
 
 /**
  * Permissions class to compute permission uint based on permission enum

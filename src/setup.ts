@@ -1,33 +1,36 @@
-import { Buffer } from 'buffer';
-import { ApplicationCommand, InteractionHandler } from './types';
+import { Buffer } from "buffer";
+import { ApplicationCommand, InteractionHandler } from "./application/index";
 
-const btoa = (value: string) => Buffer.from(value, 'binary').toString('base64');
+const btoa = (value: string) => Buffer.from(value, "binary").toString("base64");
 
 const getAuthorizationCode = async (headers: any) => {
-  headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  headers["Content-Type"] = "application/x-www-form-urlencoded";
 
-  const request = new Request('https://discord.com/api/oauth2/token', {
-    method: 'POST',
+  const request = new Request("https://discord.com/api/oauth2/token", {
+    method: "POST",
     body: new URLSearchParams({
-      grant_type: 'client_credentials',
-      scope: 'applications.commands.update',
+      grant_type: "client_credentials",
+      scope: "applications.commands.update",
     }).toString(),
-    headers: headers,
+    headers,
   });
 
   const response = await fetch(request);
 
-  if (!response.ok) throw new Error('Failed to request an Authorization code.');
+  if (!response.ok) throw new Error("Failed to request an Authorization code.");
 
   try {
     const data = await response.json();
     return data.access_token;
   } catch {
-    throw new Error('Failed to parse the Authorization code response.');
+    throw new Error("Failed to parse the Authorization code response.");
   }
 };
 
-const resolveCommandsEndpoint = (applicationId: string, guildId?: string): string => {
+const resolveCommandsEndpoint = (
+  applicationId: string,
+  guildId?: string
+): string => {
   const url = `https://discord.com/api/v8/applications/${applicationId}`;
 
   if (guildId) {
@@ -37,24 +40,32 @@ const resolveCommandsEndpoint = (applicationId: string, guildId?: string): strin
   return `${url}/commands`;
 };
 
-const deleteExistingCommands = async (applicationId: string, bearer: any, guildId?: string): Promise<void> => {
+const deleteExistingCommands = async (
+  applicationId: string,
+  bearer: any,
+  guildId?: string
+): Promise<void> => {
   const url = resolveCommandsEndpoint(applicationId, guildId);
 
   const request = new Request(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${bearer}` },
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
   });
 
   const response = await fetch(request);
   const commands = await response.json();
 
   await Promise.all(
-    commands.map((command: ApplicationCommand & { id: string; application_id: string }) => {
-      return fetch(`${url}/${command.id}`, {
-        method: 'DELETE',
-        headers: { Authorizaton: `Bearer ${bearer}` },
-      });
-    }),
+    commands.map(
+      (command: ApplicationCommand & { id: string; application_id: string }) =>
+        fetch(`${url}/${command.id}`, {
+          method: "DELETE",
+          headers: { Authorizaton: `Bearer ${bearer}` },
+        })
+    )
   );
 };
 
@@ -68,15 +79,18 @@ const createCommands = async (
     guildId?: string;
     commands: [ApplicationCommand, InteractionHandler][];
   },
-  bearer: any,
+  bearer: any
 ): Promise<Response> => {
   const url = resolveCommandsEndpoint(applicationId, guildId);
 
   const promises = commands.map(async ([command, handler]) => {
     const request = new Request(url, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(command),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${bearer}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${bearer}`,
+      },
     });
 
     try {
@@ -97,7 +111,12 @@ const createCommands = async (
   });
 
   return await Promise.all(promises)
-    .then((result) => new Response(JSON.stringify(result.reduce((acc, cur) => ({ ...acc, ...cur }), {}))))
+    .then(
+      (result) =>
+        new Response(
+          JSON.stringify(result.reduce((acc, cur) => ({ ...acc, ...cur }), {}))
+        )
+    )
     .catch((e) => new Response(e.message, { status: 502 }));
 };
 
@@ -120,7 +139,9 @@ export const setup = ({
   guildId?: string;
   commands: [ApplicationCommand, InteractionHandler][];
 }) => {
-  const authorization = btoa(unescape(encodeURIComponent(applicationId + ':' + applicationSecret)));
+  const authorization = btoa(
+    unescape(encodeURIComponent(`${applicationId}:${applicationSecret}`))
+  );
 
   const headers = {
     Authorization: `Basic ${authorization}`,
@@ -135,12 +156,13 @@ export const setup = ({
     } catch {
       return new Response(
         JSON.stringify({
-          error: 'Failed to authenticate with Discord. Are the Application ID and secret set correctly?',
+          error:
+            "Failed to authenticate with Discord. Are the Application ID and secret set correctly?",
         }),
         {
           status: 407,
-          headers: { 'Content-Type': 'application/json' },
-        },
+          headers: { "Content-Type": "application/json" },
+        }
       );
     }
   };
