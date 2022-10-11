@@ -1,6 +1,6 @@
 {
   "name": "cf-discord-js",
-  "version": "2022.10.10-2154",
+  "version": "2022.10.10-2157",
   "description": "A framework for Discord api on top of Cloudflare Workers [Fetch].",
   "author": "f91896@gmail.com",
   "license": "Apache License 2.0",
