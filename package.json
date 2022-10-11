@@ -1,6 +1,6 @@
 {
   "name": "cf-discord-js",
-  "version": "2022.10.10+2011",
+  "version": "2022.10.10-2101",
   "description": "A framework for Discord api on top of Cloudflare Workers [Fetch].",
   "author": "f91896@gmail.com",
   "license": "Apache License 2.0",
@@ -37,6 +37,7 @@
     "build": "tsc -p .",
     "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
     "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
-    "test": "echo \"No tests specified\""
+    "test": "echo \"No tests specified\"",
+    "clean": "rm -rf ./node_* ./dist"
   }
 }
